@@ -490,7 +490,7 @@
 
       const loadProducts = async () => {
         try {
-          const products = await requestJson('/api/products');
+          const products = await requestJson('/api/admin/products');
           currentProducts = products;
           renderTable();
         } catch (error) {

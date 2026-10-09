@@ -274,6 +274,20 @@ app.get('/api/products', (req, res) => {
       return res.status(500).json({ error: err.message });
     }
 
+    res.json(rows.map((row) => {
+      const product = formatProduct(row);
+      const { price, ...publicProduct } = product;
+      return publicProduct;
+    }));
+  });
+});
+
+app.get('/api/admin/products', ensureAdminAuth, (req, res) => {
+  db.all('SELECT * FROM products ORDER BY created_at DESC', (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
     res.json(rows.map(formatProduct));
   });
 });

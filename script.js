@@ -13,10 +13,6 @@ const elements = {
   mainNav: document.getElementById('mainNav')
 };
 
-const formatCurrency = (value) => {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(value || 0));
-};
-
 const categoryMap = {
   caminhao: 'Caminhão',
   carro: 'Carro',
@@ -70,7 +66,6 @@ const renderProducts = () => {
         <h3>${product.title}</h3>
         <p>${product.description}</p>
         <div class="product-bottom">
-          <strong>${formatCurrency(product.price)}</strong>
           <span class="status ${product.status === 'disponível' ? 'status-ok' : 'status-ordered'}">${product.status}</span>
         </div>
         <div class="product-actions">
