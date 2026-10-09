@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Administrativo | Paraibana Peças</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --navy: #102c50;
+        --navy-2: #173d69;
+        --blue: #2d5f95;
+        --ink: #17283d;
+        --muted: #69798c;
+        --pale: #f2f6fb;
+        --line: #dce5ef;
+        --white: #ffffff;
+        --success: #198754;
+        --danger: #d92d20;
+        --gold: #e9b85d;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #edf3fb 0%, #f9fbff 100%);
+        color: var(--ink);
+      }
+      a { color: inherit; text-decoration: none; }
+      .container { width: min(1200px, calc(100% - 32px)); margin: 0 auto; }
+      .topbar {
+        background: var(--navy);
+        color: #e6eefb;
+        font-size: 12px;
+        padding: 9px 0;
+      }
+      .topbar-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+      .site-header {
+        background: rgba(255,255,255,0.96);
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .header-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 80px;
+        gap: 20px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+      }
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: var(--navy);
+        color: white;
+        display: grid;
+        place-items: center;
+      }
+      .brand strong { display: block; font-size: 15px; letter-spacing: 1.2px; }
+      .brand small { display: block; font-size: 9px; letter-spacing: 2px; color: var(--muted); }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 0;
+        border-radius: 10px;
+        padding: 12px 18px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+      .button.primary { background: var(--navy); color: white; }
+      .button.secondary { background: white; color: var(--navy); border: 1px solid var(--line); }
+      .button.danger { background: var(--danger); color: white; }
+      .main { padding: 36px 0 72px; }
+      .grid {
+        display: grid;
+        grid-template-columns: 420px 1fr;
+        gap: 24px;
+      }
+      .panel {
+        background: rgba(255,255,255,0.95);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: 0 16px 30px rgba(16, 44, 80, 0.06);
+      }
+      .panel-body { padding: 22px; }
+      .panel-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .panel h2 {
+        margin: 0;
+        font-size: 22px;
+        color: var(--navy);
+      }
+      .muted { color: var(--muted); }
+      form { display: grid; gap: 16px; }
+      .field, .inline-field {
+        display: grid;
+        gap: 8px;
+      }
+      .inline-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      input, select, textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 13px;
+        font: inherit;
+        background: #fff;
+        color: var(--ink);
+      }
+      textarea { min-height: 110px; resize: vertical; }
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .summary-card {
+        background: linear-gradient(180deg, #f9fbff 0%, #edf3fb 100%);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .summary-card strong {
+        display: block;
+        font-size: 26px;
+        margin: 8px 0 2px;
+        color: var(--navy);
+      }
+      .summary-card span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .table-wrap {
+        overflow: auto;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+      }
+      th, td {
+        border-bottom: 1px solid var(--line);
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 12px;
+      }
+      th {
+        background: #f4f8fe;
+        color: var(--muted);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .thumb {
+        width: 56px;
+        height: 56px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+      }
+      .status-tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding: 5px 9px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+      }
+      .status-disponível { background: rgba(25, 135, 84, 0.12); color: var(--success); }
+      .status-sob-encomenda { background: rgba(233, 184, 93, 0.2); color: #9d6a11; }
+      .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .mini-btn {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 7px 9px;
+        background: white;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 11px;
+      }
+      .mini-btn.primary { background: var(--navy); color: white; border-color: var(--navy); }
+      .mini-btn.danger { background: rgba(217, 45, 32, 0.08); color: var(--danger); border-color: rgba(217,45,32,0.15); }
+      .hidden { display: none !important; }
+      @media (max-width: 940px) {
+        .grid { grid-template-columns: 1fr; }
+        .summary { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="container topbar-inner">
+        <span>Servidor administrativo do catálogo da Paraibana Peças</span>
+        <a href="/" target="_blank" rel="noreferrer">Abrir site</a>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark">PP</span>
+          <span>
+            <strong>PARAIBANA</strong>
+            <small>PAINEL ADMINISTRATIVO</small>
+          </span>
+        </a>
+        <div class="header-actions">
+          <button id="logoutBtn" class="button secondary" type="button">Sair do painel</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <div id="loginBlock" class="panel">
+          <div class="panel-body">
+            <h2>Autenticação</h2>
+            <p class="muted">Informe seu usuário e senha para editar o estoque e os preços.</p>
+            <div class="field">
+              <label for="adminUsername">Usuário</label>
+              <input id="adminUsername" type="text" placeholder="Digite o usuário" autocomplete="username" />
+            </div>
+            <div class="field">
+              <label for="adminPassword">Senha</label>
+              <input id="adminPassword" type="password" placeholder="Digite a senha" autocomplete="current-password" />
+            </div>
+            <div class="header-actions" style="margin-top:16px;">
+              <button id="loginBtn" class="button primary" type="button">Entrar</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="adminContent" class="hidden">
+          <div class="summary">
+            <div class="summary-card">
+              <span>Total de itens</span>
+              <strong id="totalProducts">0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Itens em estoque</span>
+              <strong id="totalStock">0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Valor total estimado</span>
+              <strong id="totalValue">R$ 0</strong>
+            </div>
+          </div>
+
+          <div class="grid">
+            <aside class="panel">
+              <div class="panel-header">
+                <h2 id="formTitle">Adicionar produto</h2>
+              </div>
+              <div class="panel-body">
+                <form id="productForm">
+                  <input type="hidden" id="productId" />
+
+                  <div class="field">
+                    <label for="title">Nome do produto</label>
+                    <input id="title" type="text" placeholder="Ex.: Kit de embreagem" required />
+                  </div>
+
+                  <div class="field">
+                    <label for="category">Categoria</label>
+                    <select id="category" required>
+                      <option value="caminhao">Caminhão</option>
+                      <option value="carro">Carro</option>
+                      <option value="moto">Moto</option>
+                      <option value="onibus">Ônibus</option>
+                      <option value="tratores">Tratores</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="description">Descrição</label>
+                    <textarea id="description" placeholder="Descreva a peça"></textarea>
+                  </div>
+
+                  <div class="inline-row">
+                    <div class="inline-field">
+                      <label for="price">Preço (R$)</label>
+                      <input id="price" type="number" step="0.01" min="0" value="0" />
+                    </div>
+                    <div class="inline-field">
+                      <label for="stock">Estoque</label>
+                      <input id="stock" type="number" min="0" step="1" value="0" />
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="image">URL da imagem</label>
+                    <input id="image" type="url" placeholder="https://..." />
+                  </div>
+
+                  <div class="field">
+                    <label for="status">Status</label>
+                    <select id="status">
+                      <option value="disponível">Disponível</option>
+                      <option value="sob encomenda">Sob encomenda</option>
+                    </select>
+                  </div>
+
+                  <div class="header-actions">
+                    <button class="button primary" type="submit">Salvar produto</button>
+                    <button id="cancelEdit" class="button secondary" type="button">Cancelar</button>
+                  </div>
+                </form>
+              </div>
+            </aside>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Produtos cadastrados</h2>
+              </div>
+              <div class="panel-body">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Imagem</th>
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Preço</th>
+                        <th>Estoque</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="productsTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const loginBlock = document.getElementById('loginBlock');
+      const adminContent = document.getElementById('adminContent');
+      const productForm = document.getElementById('productForm');
+      const productsTable = document.getElementById('productsTable');
+      const formTitle = document.getElementById('formTitle');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const cancelEditBtn = document.getElementById('cancelEdit');
+
+      let currentProducts = [];
+      let editingId = null;
+
+      const setAuthState = (isLogged) => {
+        if (isLogged) {
+          loginBlock.classList.add('hidden');
+          adminContent.classList.remove('hidden');
+        } else {
+          loginBlock.classList.remove('hidden');
+          adminContent.classList.add('hidden');
+        }
+      };
+
+      const ensureAuth = async () => {
+        try {
+          const response = await fetch('/api/session', { credentials: 'same-origin' });
+          if (!response.ok) {
+            setAuthState(false);
+            return;
+          }
+
+          setAuthState(true);
+          await loadProducts();
+        } catch (error) {
+          setAuthState(false);
+        }
+      };
+
+      const requestJson = async (url, options = {}) => {
+        const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+        const response = await fetch(url, { ...options, headers, credentials: 'same-origin' });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.error || 'Erro ao processar a requisição.');
+        }
+        return data;
+      };
+
+      const formatMoney = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value || 0);
+
+      const renderStats = () => {
+        const totalProducts = currentProducts.length;
+        const totalStock = currentProducts.reduce((sum, item) => sum + Number(item.stock || 0), 0);
+        const totalValue = currentProducts.reduce((sum, item) => sum + (Number(item.price || 0) * Number(item.stock || 0)), 0);
+
+        document.getElementById('totalProducts').textContent = totalProducts;
+        document.getElementById('totalStock').textContent = totalStock;
+        document.getElementById('totalValue').textContent = formatMoney(totalValue);
+      };
+
+      const renderTable = () => {
+        if (!currentProducts.length) {
+          productsTable.innerHTML = '<tr><td colspan="7" style="padding:18px; color:#69798c;">Nenhum produto cadastrado.</td></tr>';
+          renderStats();
+          return;
+        }
+
+        productsTable.innerHTML = currentProducts.map((product) => `
+          <tr>
+            <td><img class="thumb" src="${product.image || 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=900&q=80'}" alt="${product.title}" /></td>
+            <td>
+              <strong>${product.title}</strong><br>
+              <span class="muted">${product.description || 'Sem descrição'}</span>
+            </td>
+            <td>${product.category}</td>
+            <td>${formatMoney(product.price)}</td>
+            <td>${product.stock}</td>
+            <td><span class="status-tag status-${product.status.replace(/\s+/g, '-')}">${product.status}</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="mini-btn primary" type="button" data-edit="${product.id}">Editar</button>
+                <button class="mini-btn danger" type="button" data-delete="${product.id}">Excluir</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        document.querySelectorAll('[data-edit]').forEach(button => {
+          button.addEventListener('click', () => populateForm(Number(button.dataset.edit)));
+        });
+
+        document.querySelectorAll('[data-delete]').forEach(button => {
+          button.addEventListener('click', async () => {
+            const id = Number(button.dataset.delete);
+            if (!confirm('Deseja excluir este produto?')) return;
+            try {
+              await requestJson(`/api/products/${id}`, { method: 'DELETE' });
+              await loadProducts();
+            } catch (error) {
+              alert(error.message);
+            }
+          });
+        });
+
+        renderStats();
+      };
+
+      const loadProducts = async () => {
+        try {
+          const products = await requestJson('/api/products');
+          currentProducts = products;
+          renderTable();
+        } catch (error) {
+          alert(error.message);
+        }
+      };
+
+      const populateForm = (id) => {
+        const product = currentProducts.find((item) => item.id === id);
+        if (!product) return;
+
+        editingId = id;
+        formTitle.textContent = 'Editar produto';
+        document.getElementById('productId').value = product.id;
+        document.getElementById('title').value = product.title;
+        document.getElementById('category').value = product.category;
+        document.getElementById('description').value = product.description || '';
+        document.getElementById('price').value = product.price;
+        document.getElementById('stock').value = product.stock;
+        document.getElementById('image').value = product.image || '';
+        document.getElementById('status').value = product.status || 'disponível';
+      };
+
+      const resetForm = () => {
+        editingId = null;
+        formTitle.textContent = 'Adicionar produto';
+        productForm.reset();
+        document.getElementById('productId').value = '';
+        document.getElementById('price').value = '0';
+        document.getElementById('stock').value = '0';
+        document.getElementById('status').value = 'disponível';
+      };
+
+      productForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const payload = {
+          title: document.getElementById('title').value,
+          category: document.getElementById('category').value,
+          description: document.getElementById('description').value,
+          price: Number(document.getElementById('price').value || 0),
+          stock: Number(document.getElementById('stock').value || 0),
+          image: document.getElementById('image').value,
+          status: document.getElementById('status').value
+        };
+
+        try {
+          if (editingId) {
+            await requestJson(`/api/products/${editingId}`, { method: 'PUT', body: JSON.stringify(payload) });
+          } else {
+            await requestJson('/api/products', { method: 'POST', body: JSON.stringify(payload) });
+          }
+          resetForm();
+          await loadProducts();
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+
+      cancelEditBtn.addEventListener('click', resetForm);
+
+      document.getElementById('loginBtn').addEventListener('click', async () => {
+        const username = document.getElementById('adminUsername').value.trim();
+        const password = document.getElementById('adminPassword').value.trim();
+
+        if (!username || !password) {
+          alert('Informe usuário e senha para entrar no painel.');
+          return;
+        }
+
+        try {
+          await requestJson('/api/login', {
+            method: 'POST',
+            body: JSON.stringify({ username, password })
+          });
+
+          setAuthState(true);
+          await loadProducts();
+          document.getElementById('adminPassword').value = '';
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+
+      logoutBtn.addEventListener('click', async () => {
+        try {
+          await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' });
+        } catch (error) {
+          console.error('Erro ao encerrar sessão:', error);
+        } finally {
+          setAuthState(false);
+          resetForm();
+        }
+      });
+
+      ensureAuth();
+      ensureAuth();
+    </script>
+  </body>
+</html>

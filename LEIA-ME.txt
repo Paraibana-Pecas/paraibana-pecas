@@ -1,0 +1,39 @@
+PARAIBANA PEÇAS — SITE
+
+ARQUIVOS
+- index.html: estrutura e conteúdo do site.
+- styles.css: identidade visual azul-marinho e branco, responsividade e animações leves.
+- script.js: abas de categorias, cartões de peças, menu mobile e links de consulta.
+- fotos/: coloque aqui as fotos reais das peças.
+
+COMO EXECUTAR LOCALMENTE
+1. Instale Node.js.
+2. No diretório do projeto, execute `npm install`.
+3. Configure as variáveis ADMIN_USERNAME, ADMIN_PASSWORD (mínimo 14 caracteres) e ADMIN_SESSION_SECRET (mínimo 32 bytes).
+4. Execute `npm start` e abra http://localhost:3000.
+
+PUBLICAÇÃO NO RENDER
+- O arquivo render.yaml configura um serviço Node.js no plano gratuito, sem disco persistente.
+- O SQLite grava localmente no diretório data/. No plano gratuito, o sistema de arquivos é efêmero; produtos e alterações podem ser perdidos quando o serviço reinicia, suspende ou recebe um novo deploy.
+- Use esta opção gratuita para demonstração ou testes, não como estoque de produção sem cópias de segurança e aceitação explícita do risco de perda de dados.
+- Para conservar dados de estoque, será necessário usar armazenamento persistente pago ou migrar para um banco gerenciado com persistência adequada.
+
+COMO ADICIONAR FOTOS
+Os cartões estão preparados para exibir imagens locais. Salve cada foto com o nome exato indicado no cartão/código dentro da pasta fotos/.
+Exemplos:
+- fotos/caminhao-filtros.jpg
+- fotos/carro-freios.jpg
+- fotos/moto-pneus.jpg
+- fotos/moto-baterias.jpg
+- fotos/onibus-filtros.jpg
+- fotos/trator-hidraulico.jpg
+
+Para trocar os nomes ou acrescentar produtos, edite o objeto `categories` em script.js. As imagens dos cartões são links clicáveis que abrem a foto em uma nova aba. Até adicionar as fotos, aparecem espaços ilustrativos.
+
+CONTATO
+O WhatsApp está configurado como (87) 99900-5001, usando o link internacional 5587999005001. Confirme o DDD e o número antes de publicar.
+
+OBSERVAÇÕES
+- O catálogo, estoque, preços e painel administrativo utilizam o servidor Node.js e o banco SQLite.
+- Missão, visão e texto institucional são uma proposta de redação e podem ser ajustados pela loja.
+- O selo “Desde 1986” acompanha a informação de 40 anos. Se a data de fundação oficial for outra, altere o texto no index.html.
